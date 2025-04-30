@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♿</text></svg>">
+  <meta charset="UTF-8" />
+  <meta name="description" content="Palmas Acessível: denuncie locais com falhas de acessibilidade na cidade de Palmas.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palmas Acessível</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <span class="icon">♿</span>
+      <div>
+        <h1>Palmas Acessível</h1>
+        <p>Denuncie falhas de acessibilidade</p>
+      </div>
+    </div>
+    <nav>
+      <a href="#formulario">Denunciar</a>
+      <a href="#secao-mapa">Mapa</a>
+      <a href="#recentes">Recentes</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Juntos por uma Palmas mais acessível</h2>
+    <p>Sua denúncia pode ajudar a transformar nossa cidade em um lugar mais inclusivo para todos.</p>
+    <button onclick="document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' })">Faça uma denúncia</button>
+  </section>
+
+  <section class="status">
+    <div class="card">
+      <h3 id="denuncias-registradas">0</h3>
+      <p>Denúncias registradas</p>
+    </div>
+    <div class="card">
+      <h3 id="casos-resolvidos">0</h3>
+      <p>Casos resolvidos</p>
+    </div>
+    <div class="card">
+      <h3 id="bairros-atendidos">0</h3>
+      <p>Bairros atendidos</p>
+    </div>
+  </section>
+
+  <section class="form-section" id="formulario">
+    <h2>Enviar Denúncia</h2>
+    <form id="form-denuncia">
+      <label for="titulo">Título*</label>
+      <input id="titulo" type="text" placeholder="Ex: Falta de rampa" required />
+    
+      <label>Local*</label>
+      <input id="local" type="text" placeholder="Ex: ARNE 81, Alameda 10" autocomplete="off" required />
+      <ul id="sugestoes-endereco" class="lista-sugestoes" style="border: none; box-shadow: none;">
+        <input type="hidden" id="endereco-completo" name="endereco-completo" />
+      </ul>
+      
+
+      <label for="data">Data*</label>
+      <input id="data" type="date" placeholder="dd/mm/aaaa" required />
+    
+      <label for="foto">Foto (opcional)</label>
+      <input id="foto" type="file" accept="image/*" />
+    
+      <label for="descricao">Descrição*</label>
+      <textarea id="descricao" placeholder="Detalhe a falha encontrada..." required></textarea>
+    
+      <p><strong>Caso não conheça o endereço, você pode encontrá-lo navegando pelo mapa. Selecione o local exato da denúncia clicando no mapa abaixo.</strong></p>
+    
+      <div style="margin-top: 1em;">
+        <button type="submit">Registrar Denúncia</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="mapa-denuncias" id="secao-mapa">
+    <h2>Mapa de Denúncias</h2>
+    <div id="mapa" style="height: 400px;"></div>
+  </section>
+
+  <section class="denuncias-recentes" id="recentes">
+    <h2>Denúncias Recentes</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Falta de rampa na entrada da Secretaria de Educação</h3>
+        <p class="local">📍 Secretaria Municipal de Educação</p>
+        <p class="data">📅 15/06/2023</p>
+        <span class="status pendente">Pendente</span>
+        <p>A entrada principal não possui rampa de acesso, apenas escadas, impossibilitando o acesso de cadeirantes.</p>
+        <a href="#">Ver detalhes</a>
+      </div>
+
+      <div class="card">
+        <h3>Elevador quebrado no Fórum</h3>
+        <p class="local">📍 Fórum de Palmas</p>
+        <p class="data">📅 10/06/2023</p>
+        <span class="status andamento">Em andamento</span>
+        <p>Elevador do bloco B está inoperante há mais de 2 semanas, sem previsão de reparo.</p>
+        <a href="#">Ver detalhes</a>
+      </div>
+
+      <div class="card">
+        <h3>Rampa de acesso danificada no Terminal Rodoviário</h3>
+        <p class="local">📍 Terminal Rodoviário de Palmas</p>
+        <p class="data">📅 28/04/2025</p>
+        <span class="status andamento">Em andamento</span>
+        <p>A rampa de acesso para cadeirantes está danificada, dificultando a locomoção de pessoas com deficiência.</p>
+        <a href="#">Ver detalhes</a>
+      </div>
+
+      <div class="card">
+        <h3>Banheiro adaptado sem condições de uso</h3>
+        <p class="local">📍 UPA Norte</p>
+        <p class="data">📅 05/06/2023</p>
+        <span class="status resolvido">Resolvido</span>
+        <p>Banheiro adaptado está sendo usado como depósito e as barras de apoio estão soltas.</p>
+        <a href="#">Ver detalhes</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    // Contador de denúncias registrado
+    let denunciasRegistradas = 0;
+
+    // Função para atualizar o número de denúncias registradas na página
+    function atualizarContadores() {
+      document.getElementById('denuncias-registradas').innerText = denunciasRegistradas;
+    }
+
+    // Evento para quando o formulário for enviado
+    document.getElementById('form-denuncia').addEventListener('submit', function(event) {
+      event.preventDefault();  // Impede o envio do formulário para fins de demonstração
+
+      // Incrementa o número de denúncias registradas
+      denunciasRegistradas++;
+
+      // Atualiza o contador na página
+      atualizarContadores();
+    });
+
+    // Inicializa os contadores ao carregar a página
+    atualizarContadores();
+  </script>
+</body>
+</html>
