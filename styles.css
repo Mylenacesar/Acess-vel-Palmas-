@@ -474,3 +474,80 @@ button[type="submit"]:active {
     margin-left: 0;
   }
 }
+
+
+.artigo {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.artigo h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #004085;
+  text-align: center;
+}
+
+
+.artigo {
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+  color: #f3f2f2;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.artigo h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #004085;
+  text-align: center;
+}
+
+.artigo .card {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  background: #0c2a4e;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(244, 243, 243, 0.05);
+  text-align: left;
+}
+
+.artigo .card h4 {
+  margin-top: 1.5rem;
+  font-size: 1.25rem;
+  color: #0056b3;
+}
+
+.artigo .card p,
+.artigo .card ul {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.artigo .card ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.artigo .card li {
+  margin-bottom: 0.75rem;
+}
+
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .artigo h2 {
+    font-size: 1.5rem;
+  }
+}
